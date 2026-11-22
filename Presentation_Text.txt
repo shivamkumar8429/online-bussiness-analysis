@@ -1,0 +1,419 @@
+SLIDE 1
+
+========================================
+
+PROJECT PRESENTATION
+
+Online Shopping Order Analysis
+
+E-commerce / Online Shopping Orders in India
+
+Data Analyst Training Project B.Tech / BCA, First Year
+
+Student Details
+
+Field | Fill in your details
+
+Name | Shivam Kumar
+
+Admission No | 2026B01010847
+
+Email ID | shivamkumar9555931002@gmail.com
+
+Branch / Section | CSE / 13
+
+GitHub Link |
+https://github.com/shivamkumar8429/online-bussiness-analysis.git added
+
+Date | 21-11-2026
+
+SLIDE 2
+
+========================================
+
+Introduction
+
+2
+
+Data Analyst Training Project
+
+1
+
+My Domain
+
+Online shopping (e-commerce) in India. The data has orders from 5
+cities: Delhi, Mumbai, Bengaluru, Kolkata and Noida.
+
+2
+
+Why I Chose It
+
+Almost everyone shops online today. I wanted to learn why some customers
+are happy and others are not, using price, delivery time, discount and
+payment method.
+
+3
+
+Who Uses the Results
+
+The operations and marketing manager of an online shopping company, who
+decides on delivery partners, discounts and payment options.
+
+SLIDE 3
+
+========================================
+
+Problem Statement
+
+3
+
+Data Analyst Training Project
+
+Business Problem
+
+The company received 250 orders in 5 cities, but the average
+satisfaction score is only 70.6 out of 100. The manager does not know
+what pulls the score down: slow delivery, low discounts, or the payment
+method. The analysis will help decide where to spend money first to
+raise satisfaction and which product category to focus on.
+
+Stakeholder
+
+Operations and Marketing Manager of an online shopping company.
+
+Why It Matters
+
+Happy customers buy again. Fixing slow delivery and using discounts well
+can lift satisfaction and protect sales.
+
+SLIDE 4
+
+========================================
+
+The Four Questions
+
+4
+
+Data Analyst Training Project
+
+Q1
+
+Does slower delivery lower customer satisfaction? Columns used:
+Delivery_Days, Satisfaction_Score
+
+Q2
+
+Which product category brings the most revenue? Columns used:
+Product_Category, Order_Value_INR
+
+Q3
+
+Do higher discounts lead to higher satisfaction? Columns used:
+Discount_Percent, Satisfaction_Score
+
+Q4
+
+Which payment method has the happiest customers? Columns used:
+Payment_Method, Satisfaction_Score
+
+SLIDE 5
+
+========================================
+
+Dataset Overview
+
+5
+
+Data Analyst Training Project
+
+255
+
+Rows
+
+11
+
+Columns
+
+1
+
+Outcome column
+
+File: online_shopping_data.csv Source: synthetic data created with an AI
+tool
+
+Column | Type | Meaning
+
+Order_ID, Order_Date | ID / Date | Order code and the date it was placed
+
+City, Device_Type, Customer_Age | Category / Number | Where, how and by
+whom the order was placed
+
+Product_Category | Category | Fashion, Electronics, Home_Kitchen or
+Beauty
+
+Payment_Method | Category | UPI, Card, COD (cash) or Wallet
+
+Order_Value_INR | Number | Order amount in rupees
+
+Delivery_Days, Discount_Percent | Number | Days to deliver; discount
+given (%)
+
+Satisfaction_Score | Number | Outcome: customer score out of 100
+
+SLIDE 6
+
+========================================
+
+Data Quality Issues and Cleaning
+
+6
+
+Data Analyst Training Project
+
+Column | Problem found | How many | How I fixed it, and why
+
+Order_ID (all columns) | Duplicate rows | 5 | Removed the repeated rows,
+because they count the same order twice.
+
+Payment_Method, Age, Delivery_Days, Satisfaction | Missing values | 20 |
+Median for numbers, “Unknown” for payment method, so no rows are lost.
+
+City | Inconsistent text | 7 | Removed extra spaces and used one
+spelling, so “kolkata” and “KOLKATA” become Kolkata.
+
+Discount_Percent | Impossible values (250 and 135) | 2 | A discount
+cannot be above 100%, so I treated them as typing errors and used the
+median discount.
+
+Rows before cleaning: 255 Rows after cleaning: 250
+
+SLIDE 7
+
+========================================
+
+New Columns Created
+
+7
+
+Data Analyst Training Project
+
+New column | How it is calculated | Why it is useful
+
+Delivery_Speed | Delivery_Days grouped as Fast (1-3), Standard (4-6) and
+Slow (7+ days) | Question 1: compare satisfaction of fast and slow
+orders
+
+Discount_Band | Discount_Percent grouped as 0-10%, 11-20% and 21%+ |
+Question 3: see if bigger discounts give higher scores
+
+Value_Band | Order_Value_INR grouped as Low (up to 1,500), Medium (up to
+5,000) and High (above 5,000) | Question 2: see how small and big orders
+add to revenue
+
+SLIDE 8
+
+========================================
+
+Question 1: Does slow delivery hurt satisfaction?
+
+8
+
+Data Analyst Training Project
+
+What the Chart Shows
+
+Average satisfaction score (up) for each delivery time in days (across).
+The line goes down as days increase.
+
+Finding
+
+Orders delivered in 1-3 days score 75.7, but orders taking 7+ days score
+only 63.0. That is a 12.7 point gap.
+
+SLIDE 9
+
+========================================
+
+Question 2: Which category earns the most?
+
+9
+
+Data Analyst Training Project
+
+What the Chart Shows
+
+Total order value in rupees (thousand) for each product category.
+Electronics has the longest bar.
+
+Finding
+
+Electronics earns Rs 4.71 lakh, which is 51.4% of all revenue, from only
+49 of 250 orders.
+
+SLIDE 10
+
+========================================
+
+Question 3: Do discounts raise satisfaction?
+
+10
+
+Data Analyst Training Project
+
+What the Chart Shows
+
+Average satisfaction score for three discount bands. The bars rise from
+left to right.
+
+Finding
+
+Orders with 21%+ discount score 75.3, against 65.6 for 0-10%. That is
+9.7 points higher.
+
+SLIDE 11
+
+========================================
+
+Question 4: Which payment method is happiest?
+
+11
+
+Data Analyst Training Project
+
+What the Chart Shows
+
+Average satisfaction score for each payment method, with the number of
+orders below each bar.
+
+Finding
+
+Wallet scores 67.4, about 4 points below Card (71.4) and COD (71.2). UPI
+is used most: 111 orders.
+
+SLIDE 12
+
+========================================
+
+Key Findings and Recommendations
+
+12
+
+Data Analyst Training Project
+
+12.7 pts
+
+Lower satisfaction for slow (7+ days) deliveries than fast (1-3 days)
+ones
+
+51.4%
+
+of all revenue comes from Electronics, from only 20% of the orders
+
++9.7 pts
+
+Higher satisfaction when the discount is 21%+ than when it is 0-10%
+
+Recommendations for the Manager
+
+• Cut slow deliveries (7+ days, 51 orders): their scores are 12.7 points
+lower. • Protect Electronics stock and delivery quality, because it
+brings 51.4% of revenue. • Test 21%+ discounts on selected items (+9.7
+points) and check why Wallet scores only 67.4.
+
+SLIDE 13
+
+========================================
+
+Tools and Workflow
+
+13
+
+Data Analyst Training Project
+
+Raw Data
+
+Step 1
+
+CSV file with 255 rows
+
+Inspect
+
+Step 2
+
+Size, types, blanks, 5 duplicates
+
+Clean
+
+Step 3
+
+Fixed duplicates, blanks, city text, discounts
+
+Transform
+
+Step 4
+
+Added 3 new group columns
+
+Analyse
+
+Step 5
+
+Group averages, totals and 4 charts
+
+Insights
+
+Step 6
+
+3 findings and 3 recommendations
+
+Tools Used
+
+Python, pandas, NumPy, Matplotlib
+
+SLIDE 14
+
+========================================
+
+Challenges and Learnings
+
+14
+
+Data Analyst Training Project
+
+Challenges I Faced
+
+• City names had different spellings and spaces; I fixed them with
+strip() and title(). • Two discounts were above 100% (250 and 135); I
+found them with describe() and replaced them. • Choosing how to fill 20
+blank values took time; I used the median and “Unknown”.
+
+What I Learnt
+
+• I can now find duplicates, blanks and wrong values in pandas and group
+data with groupby(). • Delivery time matters a lot in online shopping:
+its link with satisfaction is -0.59. • Next time I would test whether
+discounts really cause higher satisfaction, with more data.
+
+SLIDE 15
+
+========================================
+
+Thank You
+
+Project Links
+
+• GitHub repository: link to be added • Dataset: synthetic, created with
+an AI tool
+
+I declare that the cleaning, analysis, charts and insights in this
+project are my own work. Only the dataset was created with an AI tool.
+
+Presented By
+
+Field | Fill in your details
+
+Name | Shivam Kumar
+
+Admission No | 2026B01010847
+
+Email ID | shivamkumar9555931002@gmail.com

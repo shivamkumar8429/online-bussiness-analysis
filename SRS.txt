@@ -1,0 +1,376 @@
+Project Title: Online Shopping Customer Satisfaction Analysis
+
+Domain: Online Shopping (E-commerce) Order and Customer Satisfaction Analysis
+
+Data Analyst Training Project, B.Tech / BCA First Year
+
+Student Details
+
+  -----------------------------------------------------------------------
+  Field                               Fill in your details
+  ----------------------------------- -----------------------------------
+  Name                                Shivam kumar
+
+  Admission No                        2026B0101847
+
+  Email ID                            Shivamkumar9555931002@gmail.com
+
+  Branch / Section                    CSE / 13
+
+  GitHub Link                         
+
+  Date                                20-11-2026
+  -----------------------------------------------------------------------
+
+1. Introduction
+
+1.1 Purpose
+
+This document describes what the Online Shopping Customer Satisfaction Analysis project must do: the data it uses, the cleaning and analysis steps, the outputs it produces and the criteria for calling it complete. It is written for the course evaluator, the project mentor and any reader who wants to reproduce the analysis.
+
+1.2 Project Scope
+
+In scope
+
+-   Loading and inspecting the online shopping orders dataset
+
+-   Cleaning the data (duplicates, blanks, inconsistent text, impossible values)
+
+-   Creating new columns (discount amount, satisfaction band, delivery speed, age group, order month)
+
+-   Answering four business questions with tables and charts
+
+-   Insights and recommendations for the operations manager
+
+Out of scope
+
+-   Predicting future satisfaction or sales (no forecasting or machine learning)
+
+-   Live or real-time data, or any website or app
+
+-   Proving causes: the analysis shows associations in this dataset only
+
+1.3 Definitions
+
+  ------------------------------------------------------------------------------------------------------------------------
+  Term                                Meaning
+  ----------------------------------- ------------------------------------------------------------------------------------
+  SRS                                 Software Requirements Specification
+
+  CSV                                 Comma-separated values file
+
+  EDA                                 Exploratory data analysis
+
+  Satisfaction_Score                  Customer rating of an order on a 0 to 100 scale (higher is better)
+
+  At Risk                             An order with Satisfaction_Score below 60 (project rule, not an industry standard)
+
+  COD                                 Cash on Delivery: the customer pays when the order arrives
+
+  UPI                                 Unified Payments Interface: instant bank-to-bank mobile payment used in India
+
+  INR                                 Indian Rupee, the currency of Order_Value_INR
+  ------------------------------------------------------------------------------------------------------------------------
+
+1.4 References
+
+-   Sample project: ABES_DA_Student_Performance_Project
+
+-   Training notebooks, Day 1 to Day 5
+
+-   pandas, NumPy, Matplotlib and Seaborn official documentation
+
+2. Overall Description
+
+2.1 Business Problem
+
+An online shopping company receives orders across five cities, four product categories and five payment methods, and customers rate each order. The operations manager does not know which factors are linked to low satisfaction or which orders need attention. This analysis shows how satisfaction is spread, how it relates to delivery time and order value, and which groups and orders are weakest, so the manager can decide where to improve delivery and follow up with unhappy customers.
+
+2.2 Objectives
+
+The project answers these four questions:
+
+1.  What does the overall Satisfaction_Score look like?
+
+2.  How are Delivery_Days and Order_Value_INR related to Satisfaction_Score?
+
+3.  Does satisfaction differ by Product_Category, City, Payment_Method or Device_Type?
+
+4.  Which orders need attention (At Risk: Satisfaction_Score below 60)?
+
+2.3 Intended Users
+
+  ------------------------------------------------------------------------------------------------------------------------------
+  User                                What they need from this project
+  ----------------------------------- ------------------------------------------------------------------------------------------
+  Operations manager                  To know whether slow delivery is linked to low satisfaction and which orders are At Risk
+
+  Product / category manager          To see which product categories have the lowest average satisfaction
+
+  Customer support team               A list of At Risk orders to contact first
+
+  Course evaluator                    A clear, reproducible analysis whose numbers match the notebook
+  ------------------------------------------------------------------------------------------------------------------------------
+
+2.4 Tools and Environment
+
+  ------------------------------------------------------------------------------------------
+  Tool                         Version                 Used for
+  ---------------------------- ----------------------- -------------------------------------
+  Python                       3.13                    Programming language
+
+  pandas                       3.0.5                   Loading, cleaning and grouping data
+
+  NumPy                        2.5.3                   Calculations on numeric columns
+
+  Matplotlib / Seaborn         3.11.2 / 0.13.2         Charts
+
+  Jupyter Notebook / VS Code                           Writing and running the notebook
+
+  GitHub                                               Storing and sharing the project
+  ------------------------------------------------------------------------------------------
+
+2.5 Assumptions and Constraints
+
+-   The dataset is synthetic and was created with an AI tool (Claude).
+
+-   The raw dataset has about 255 rows and the cleaned dataset has 245 rows, so the results show patterns in this data only.
+
+-   Valid ranges: Customer_Age 18 to 100, Delivery_Days 0 or more, Discount_Percent 0 to 100, Satisfaction_Score 0 to 100.
+
+-   At Risk is defined as Satisfaction_Score below 60. This is a project rule, not an industry standard.
+
+-   Order_Value_INR may be before or after discount; the source does not say, so the discount amount is an estimate.
+
+-   Correlation shows association, not cause.
+
+3. Data Requirements
+
+3.1 Dataset Description
+
+  -------------------------------------------------------------------------------------------------------------
+  Item                                Value
+  ----------------------------------- -------------------------------------------------------------------------
+  File name                           online_shopping_data.csv (cleaned copy: online_shopping_data_clean.csv)
+
+  Location                            data/raw (raw file), data/processed (cleaned file)
+
+  Number of rows                      255 raw, 245 after cleaning
+
+  Number of columns                   11 raw, 16 after adding new columns
+
+  Outcome column                      Satisfaction_Score
+
+  Date range                          2024-11-23 to 2026-11-17
+
+  Source                              Synthetic data created with Claude
+  -------------------------------------------------------------------------------------------------------------
+
+3.2 Data Dictionary
+
+Columns of the cleaned dataset. The last five columns were created during the analysis.
+
+  ----------------------------------------------------------------------------------------------------------------------------------------------------
+  Column                Type              Valid values or range                        Meaning
+  --------------------- ----------------- -------------------------------------------- ---------------------------------------------------------------
+  Order_ID              ID                Unique (e.g. O1001)                          Unique identifier of an order
+
+  Order_Date            Date              YYYY-MM-DD                                   Date the order was placed
+
+  City                  Category          Bengaluru, Delhi, Kolkata, Mumbai, Noida     City of the customer
+
+  Product_Category      Category          Beauty, Electronics, Fashion, Home_Kitchen   Category of the product ordered
+
+  Payment_Method        Category          COD, Card, UPI, Unknown, Wallet              How the customer paid (Unknown = not recorded)
+
+  Device_Type           Category          Desktop, Mobile, Tablet                      Device used to place the order
+
+  Customer_Age          Number            18 to 56                                     Age of the customer in years
+
+  Order_Value_INR       Number            153 to 25,802                                Value of the order in rupees
+
+  Delivery_Days         Number            1 to 10                                      Days taken to deliver the order
+
+  Discount_Percent      Number            0 to 42                                      Discount given, in percent
+
+  Satisfaction_Score    Number            47.4 to 91.1 (scale 0 to 100)                Outcome: customer satisfaction with the order
+
+  Discount_Amount_INR   Number (new)      0 or more                                    Order_Value_INR x Discount_Percent / 100, in rupees
+
+  Satisfaction_Band     Category (new)    At Risk, Average, Happy                      At Risk: below 60; Average: 60 to under 75; Happy: 75 or more
+
+  Delivery_Speed        Category (new)    Fast (1-2), Normal (3-5), Slow (6-10)        Group of Delivery_Days
+
+  Age_Group             Category (new)    18-24, 25-34, 35-44, 45+                     Group of Customer_Age
+
+  Order_Month           Text (new)        YYYY-MM                                      Month in which the order was placed
+  ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.3 Data Quality Issues
+
+Counts in the 'How many' column come from the first-look notebook on the raw file. Check them against your own output before submitting.
+
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Column                                                Problem found                                 How many          How it will be fixed, and why
+  ----------------------------------------------------- --------------------------------------------- ----------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  All columns                                           Duplicate rows                                [__]              Remove exact duplicates and keep the first copy, because a repeated order would be counted twice.
+
+  Numeric and category columns                          Missing values                                [__]              Fill numeric blanks with the median (not affected by extreme values) and category blanks with the most common value or 'Unknown', because dropping rows would shrink a small dataset.
+
+  City, Product_Category, Payment_Method, Device_Type   Inconsistent text (spaces, capital letters)   [__]              Trim spaces and use title case, because 'upi' and 'UPI' must count as one group.
+
+  Discount_Percent                                      Impossible values (outside 0 to 100)          [__]              Treat as missing and fill with the median, because a discount cannot be below 0% or above 100%.
+
+  Order_Date                                            Dates stored as text                          All rows          Convert to date type (day-month-year read correctly), so months can be extracted.
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+After cleaning: 245 rows, 0 missing cells, 0 duplicate rows, and every Order_ID is unique.
+
+4. Functional Requirements
+
+Functional requirements say what the project must do.
+
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ID                     Requirement                 Details for my project
+  ---------------------- --------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  FR-1                   Load the dataset            Read data/raw/online_shopping_data.csv with pandas read_csv and keep a working copy so the raw file stays unchanged.
+
+  FR-2                   Inspect the data            Check head and tail, shape, data types, describe, missing values, duplicate rows and the unique values of City, Product_Category, Payment_Method and Device_Type.
+
+  FR-3                   Clean the data              Remove duplicates, trim and standardise text, convert dates, treat discounts outside 0 to 100 as missing, fill blanks (median for numbers, mode for text).
+
+  FR-4                   Create new columns          Discount_Amount_INR = Order_Value_INR x Discount_Percent / 100; Satisfaction_Band (below 60 / 60 to under 75 / 75 or more); Delivery_Speed (1-2, 3-5, 6-10 days); Age_Group (18-24, 25-34, 35-44, 45+); Order_Month from Order_Date.
+
+  FR-5                   Answer the four questions   Q1: describe statistics. Q2: correlation with Satisfaction_Score. Q3: groupby mean and count by category, city, payment and device. Q4: count orders with score below 60.
+
+  FR-6                   Visualise the results       Q1 histogram; Q2 scatter plots with trend line; Q3 bar charts by category and payment method; Q4 count plot of At Risk orders (five charts).
+
+  FR-7                   Save the outputs            Cleaned CSV in data/processed, chart images (PNG) in images.
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. Non-Functional Requirements
+
+Non-functional requirements say how well the project must work.
+
+  ---------------------------------------------------------------------------------------------------------------------------------------
+  ID                      Requirement             How my project meets it
+  ----------------------- ----------------------- ---------------------------------------------------------------------------------------
+  NFR-1                   Reproducible            The notebook runs from top to bottom without errors using relative paths.
+
+  NFR-2                   Readable                Every step has a short explanation; column and variable names are meaningful.
+
+  NFR-3                   Accurate                Numbers in the README and slides are copied from the notebook output.
+
+  NFR-4                   Well organised          Files are in data/raw, data/processed, notebooks, images and documents.
+
+  NFR-5                   No personal data        The dataset has only order IDs and ages; no names, phone numbers or e-mail addresses.
+  ---------------------------------------------------------------------------------------------------------------------------------------
+
+6. Project Workflow
+
+Describe the flow of your project in one line per step.
+
+  --------------------------------------------------------------------------------------------------------------------------
+  Step                    Stage                   What happens in my project
+  ----------------------- ----------------------- --------------------------------------------------------------------------
+  1                       Raw data                online_shopping_data.csv (255 rows) is stored in data/raw.
+
+  2                       Inspect                 Size, data types, blanks, duplicates and category spellings are checked.
+
+  3                       Clean                   The problems from section 3.3 are fixed; the result has 245 rows.
+
+  4                       Transform               Five new columns are created (section 3.2).
+
+  5                       Analyse                 Tables and charts answer the four questions.
+
+  6                       Insights                Findings and recommendations are written in the notebook and README.
+  --------------------------------------------------------------------------------------------------------------------------
+
+Project folder structure
+
+online-shopping-analysis/
+|-- data/
+| |-- raw/ original CSV file
+| |-- processed/ cleaned CSV file
+|-- notebooks/ analysis notebook
+|-- images/ charts
+|-- documents/ SRS and presentation
+|-- README.md
+
+7. Deliverables and Timeline
+
+  ----------------------------------------------------------------------------------------------------------------------------------------
+  Deliverable                                          Where it is                                                 Completed after
+  ---------------------------------------------------- ----------------------------------------------------------- -----------------------
+  Raw dataset                                          data/raw                                                    Day 3
+
+  First-look notebook                                  notebooks                                                   Day 3
+
+  Analysis notebook (online_shopping_analysis.ipynb)   notebooks                                                   Day 4 and Day 5
+
+  Cleaned dataset (online_shopping_data_clean.csv)     data/processed                                              Day 5
+
+  At least four charts (five planned)                  images                                                      Day 5
+
+  README with findings                                 Main folder                                                 Day 5
+
+  GitHub repository                                    https://github.com/your-username/online-shopping-analysis   Day 5
+
+  SRS document (this file)                             Submitted separately                                        20-11-2026
+
+  Project presentation                                 Submitted separately                                        [Date]
+  ----------------------------------------------------------------------------------------------------------------------------------------
+
+8. Acceptance Criteria
+
+The project is complete when all of these are true:
+
+☐ The notebook runs from top to bottom without errors.
+
+☐ All data quality issues in section 3.3 are fixed and explained.
+
+☐ At least three new columns are created (five are planned).
+
+☐ Each of the four questions is answered with a table or a chart.
+
+☐ At least four charts are saved in the images folder.
+
+☐ The README shows the business problem, questions, findings and charts.
+
+☐ The GitHub link opens without signing in.
+
+Appendix: Key Numbers from the Cleaned Data
+
+These values are calculated directly from the cleaned CSV so they match the notebook.
+
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Question                            Result
+  ----------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Q1 Overall satisfaction             Mean 70.59, median 70.50, standard deviation 8.63, range 47.4 to 91.1 (n = 245).
+
+  Q2 Numeric relationships            Delivery_Days vs satisfaction: r = -0.588 (moderate negative). Order_Value_INR vs satisfaction: r = -0.006 (almost no relation). Discount_Percent vs satisfaction: r = 0.494 (moderate positive).
+
+  Q3 Group differences                Category: lowest Electronics (68.55, n=47), highest Beauty (73.23, n=33). City: lowest Mumbai (69.43, n=51), highest Noida (71.12, n=34). Payment: lowest Wallet (67.42, n=25), highest Unknown (74.60, n=6) (Unknown has only 6 orders). Device: lowest Mobile (70.20, n=167), highest Tablet (73.38, n=18).
+
+  Delivery speed                      Mean satisfaction: Fast (1-2) 77.52 (n=49), Normal (3-5) 71.22 (n=121), Slow (6-10) 65.05 (n=75).
+
+  Q4 At Risk orders                   27 orders (11.02%) have a score below 60; 19 of them were Slow (6-10 days) deliveries.
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Correlation shows association, not cause. Group averages based on few orders (for example Unknown payment method) are less stable.
+
+9. Declaration
+
+I declare that the cleaning, analysis, charts and insights in this project are my own work. Only the dataset was created with an AI tool.
+
+  -----------------------------------------------------------------------
+  Field                               Fill in your details
+  ----------------------------------- -----------------------------------
+  Name                                Shivam kumar
+
+  Admission No                        2026B01010847
+
+  Email ID                            Shivamkumar9555931002@gmail.com
+
+  Date                                20-11-2026
+  -----------------------------------------------------------------------
